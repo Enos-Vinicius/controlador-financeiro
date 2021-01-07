@@ -33,6 +33,22 @@
     </div>
     <div class="card-body">
       <div class="form-row">
+        
+        <!--TIPO-->
+        <div class="form-group col-md-4">
+          <label for="tipo">Nome</label>
+          <select name="tipo" id="tipo" formControlName="tipo" class="form-control">
+            <option value="despesa">Despesa</option>
+            <option value="receita">Receita</option>
+          </select>
+
+          <!-- <input type="text" formControlName="tipo" class="form-control" id="tipo"> -->
+          <div class="text-danger" *ngIf="lancamentoForm.get('tipo').invalid && lancamentoForm.get('tipo').touched">
+            <div *ngIf="lancamentoForm.get('tipo').errors.required">* Dado Obrigatório</div>
+          </div>
+        </div>
+
+        <!--NOME-->
         <div class="form-group col-md-4">
           <label for="nome">Nome</label>
           <input type="text" formControlName="nome" class="form-control" id="nome">
@@ -41,6 +57,8 @@
             <div *ngIf="lancamentoForm.get('nome').errors.minlength">* Deve ter no minimo 2 caracteres</div>
           </div>
         </div>
+
+        <!--DESCRIÇÃO-->
         <div class="form-group col-md-8">
           <label for="descricao">Descrição</label>
           <input type="text" formControlName="descricao" class="form-control" id="descricao">
