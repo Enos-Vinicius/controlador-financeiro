@@ -7,7 +7,7 @@ import { CategoriaService } from "../shared/categoria.service";
 
 import { switchMap } from "rxjs/operators";
 
-import Toaster from "toastr";
+import toaster from "toastr";
 
 @Component({
   selector: 'app-categoria-form',
@@ -38,6 +38,50 @@ export class CategoriaFormComponent implements OnInit, AfterContentChecked {
 
   ngAfterContentChecked(){
     this.setPageTitle();
+  }
+
+  submitForm(){
+    this.submittingForm = true;
+    
+    if(this.currentAction == 'new'){
+      this.createCategoria();
+    } else {
+      this.updateCategoria();
+    }
+  }
+
+  private createCategoria(){
+    const categoria: Categoria = Object.assign(new Categoria(), this.categoriaForm.value);
+    this.categoriaService.create(categoria).subscribe(
+      categoria => this.actionsForSuccess(categoria),
+      error => this.actionsForError(error) 
+    )
+  }
+
+  private updateCategoria(){
+    const categoria: Categoria = Object.assign(new Categoria(), this.categoriaForm.value);
+
+    this.categoriaService.update(categoria).subscribe(
+      categoria => this.actionsForSuccess(categoria),
+      error => this.actionsForError(error) 
+    )
+  }
+
+  private actionsForSuccess(categoria: Categoria){
+    toaster.success("Solicitação processada com sucesso!");
+    this.router.navigateByUrl('categorias', {skipLocationChange: true}).then(
+      () => this.router.navigate(['categorias', categoria.id, 'edit'])
+    )
+  }
+
+  private actionsForError(error){
+    toaster.error("Ocorreu um erro ao processar a sua solicitação!")
+    this.submittingForm = false;
+    if(error.status === 422){
+      this.serverErrorMessages = JSON.parse(error._body).errors;
+    } else {
+      this.serverErrorMessages = ["Falha na comunicação com o servidor. Por favor tente mais tarde."]
+    }
   }
 
   private setCurrentAction(){
