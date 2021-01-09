@@ -35,11 +35,11 @@
       <div class="form-row">
         
         <!--TIPO-->
-        <div class="form-group col-md-4">
-          <label for="tipo">Nome</label>
+        <div class="form-group col-md-3">
+          <label for="tipo">Tipo</label>
           <select name="tipo" id="tipo" formControlName="tipo" class="form-control">
-            <option value="despesa">Despesa</option>
-            <option value="receita">Receita</option>
+            <option *ngFor="let option of typeOptions" value="option.value">{{option.text}}</option>
+
           </select>
 
           <!-- <input type="text" formControlName="tipo" class="form-control" id="tipo"> -->
@@ -48,9 +48,9 @@
           </div>
         </div>
 
-        <!--NOME-->
-        <div class="form-group col-md-4">
-          <label for="nome">Nome</label>
+        <!--Lançamento-->
+        <div class="form-group col-md-5">
+          <label for="nome">Lançamento</label>
           <input type="text" formControlName="nome" class="form-control" id="nome">
           <div class="text-danger" *ngIf="lancamentoForm.get('nome').invalid && lancamentoForm.get('nome').touched">
             <div *ngIf="lancamentoForm.get('nome').errors.required">* Dado Obrigatório</div>
@@ -58,11 +58,73 @@
           </div>
         </div>
 
+        <!--Valor-->
+        <div class="form-group col-md-2">
+          <label for="valor">Valor</label>
+          <div class="input-group">
+            <div class="input-group-preprend">
+              <div class="input-group-text">R$</div>
+            </div>
+            <input [imask]="imaskConfig" type="text" formControlName="valor" class="form-control text-right" id="valor">
+          </div>
+          <div class="text-danger" *ngIf="lancamentoForm.get('valor').invalid && lancamentoForm.get('valor').touched">
+            <div *ngIf="lancamentoForm.get('valor').errors.required">* Dado Obrigatório</div>
+          </div>
+        </div>
+
+        <!--Data-->
+        <div class="form-group col-md-2">
+          <label for="valor">Data</label>
+
+          <p-calendar
+            id="data"
+            formControlName="data"
+            inputStyleClass="form-control"
+            dataType="string"
+            dateFormat="dd/mm/yy"
+            [locale]="ptBR"
+            [showButtonBar]="true"
+          ></p-calendar>
+
+          <div class="text-danger" *ngIf="lancamentoForm.get('data').invalid && lancamentoForm.get('data').touched">
+            <div *ngIf="lancamentoForm.get('data').errors.required">* Dado Obrigatório</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="form-row">
+
+        <!--Pago-->
+        <div class="form-group col-md-2">
+          <label for="paga">Pago</label>
+          <div class="btn-group">
+            <label (click)="lancamentoForm.get('paga').setValue(true)" [class.active]="lancamentoForm.get('paga').value == true" class="btn btn-outline-info">Pago</label>
+            <label (click)="lancamentoForm.get('paga').setValue(false)" [class.active]="lancamentoForm.get('paga').value == false" class="btn btn-outline-info">Pendente</label>
+          </div>
+
+          <div class="text-danger" *ngIf="lancamentoForm.get('paga').invalid && lancamentoForm.get('paga').touched">
+            <div *ngIf="lancamentoForm.get('paga').errors.required">* Dado Obrigatório</div>
+          </div>
+        </div>
+
+        <!--CATEGORIA ID-->
+        <div class="form-group col-md-3">
+          <label for="categoriaId">Categoria</label>
+          <select name="categoriaId" id="categoriaId" formControlName="categoriaId" class="form-control">
+            <option *ngFor="let categoria of categorias" [value]="categoria.id">{{categoria.nome}}</option>
+          </select>
+
+          <div class="text-danger" *ngIf="lancamentoForm.get('categoriaId').invalid && lancamentoForm.get('categoriaId').touched">
+            <div *ngIf="lancamentoForm.get('categoriaId').errors.required">* Dado Obrigatório</div>
+          </div>
+        </div>
+
         <!--DESCRIÇÃO-->
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-7">
           <label for="descricao">Descrição</label>
           <input type="text" formControlName="descricao" class="form-control" id="descricao">
         </div>
+
       </div>
     </div>
   </div>
@@ -78,3 +140,5 @@
   </button>
 
 </form>
+
+<pre>{{lancamentoForm.value | json}}</pre>
