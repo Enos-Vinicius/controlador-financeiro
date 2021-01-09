@@ -38,7 +38,7 @@
         <div class="form-group col-md-3">
           <label for="tipo">Tipo</label>
           <select name="tipo" id="tipo" formControlName="tipo" class="form-control">
-            <option *ngFor="let option of typeOptions" value="option.value">{{option.text}}</option>
+            <option *ngFor="let option of typeOptions" [value]="option.value">{{option.text}}</option>
 
           </select>
 
