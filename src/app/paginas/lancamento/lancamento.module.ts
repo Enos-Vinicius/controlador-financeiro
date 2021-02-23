@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { LancamentoRoutingModule } from './lancamento-routing.module';
 import { LancamentoListaComponent } from './lancamento-lista/lancamento-lista.component';
 import { LancamentoFormComponent } from './lancamento-form/lancamento-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
 
 import { IMaskModule } from 'angular-imask';
 import { CalendarModule } from 'primeng/calendar';
+
+
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -15,12 +16,10 @@ import { CalendarModule } from 'primeng/calendar';
     LancamentoFormComponent
   ],
   imports: [
-    CommonModule,
+    SharedModule,
     CalendarModule,
     IMaskModule,
-    LancamentoRoutingModule,
-    ReactiveFormsModule
-
+    LancamentoRoutingModule
   ]
 })
 export class LancamentosModule { }
