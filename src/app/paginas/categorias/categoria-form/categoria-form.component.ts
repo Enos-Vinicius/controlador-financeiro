@@ -51,7 +51,7 @@ export class CategoriaFormComponent implements OnInit, AfterContentChecked {
   }
 
   private createCategoria(){
-    const categoria: Categoria = Object.assign(new Categoria(), this.categoriaForm.value);
+    const categoria: Categoria = Categoria.fromJson(this.categoriaForm.value);
     this.categoriaService.create(categoria).subscribe(
       categoria => this.actionsForSuccess(categoria),
       error => this.actionsForError(error) 
